@@ -11,7 +11,7 @@ public class ItemInventory : MonoBehaviour
     public Image icon;
     public TextMeshProUGUI qtd_txt;
 
-    [HideInInspector] public int qtd;
+    public int qtd;
 
     public void AddItem(int? qtd_){
         qtd += qtd_??1;

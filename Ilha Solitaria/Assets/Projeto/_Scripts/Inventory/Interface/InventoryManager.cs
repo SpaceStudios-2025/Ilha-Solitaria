@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
@@ -53,12 +52,14 @@ public class InventoryManager : MonoBehaviour
     }
 
     public bool GenerateItem(Item item,int qtd){
-        foreach(var i in itensPrefabs){
-            if(i == null){
-                itensPrefabs.Clear();
-                break;
-            }
-        }
+        // foreach(var i in itensPrefabs){
+        //     if(i == null){
+        //         itensPrefabs.Clear();
+        //         break;
+        //     }
+        // }
+
+        itensPrefabs.Clear();
 
         if(item.group){
             foreach(var slot in slots){
@@ -99,26 +100,29 @@ public class InventoryManager : MonoBehaviour
     }
 
     public bool GenerateItem(Item item,int qtd,ItemPrefab itemPrefab){
-        foreach(var i in itensPrefabs){
-            if(i == null){
-                itensPrefabs.Clear();
-                break;
-            }
-        }
-
+        itensPrefabs.Clear();
+        
         if(item.group){
+            print("group");
             foreach(var slot in slots){
                 if(slot.full && slot.itemInv.item == item){
+                    print("slot cheio e item igual");
                     if(slot.itemInv.qtd < item.maxGroup){
+                        print("slot cheio e item igual e item com espaço");
                         if((slot.itemInv.qtd + qtd) <= item.maxGroup){
                             AddItem(slot,qtd);
+                            print("da para adicionar tudo, adicionado a um item existente : " + qtd);
                             return true;
                         }else{
-                            var qt = slot.itemInv.qtd + qtd - item.maxGroup;
+                            var qt = qtd - slot.itemInv.qtd;
+                            var sobra = item.maxGroup - qt;
                             AddItem(slot,qt);
                             itemPrefab.qtd -= qt;
 
-                            qtd = qt;
+                            print("adicionado a um item existente que não da para adicionar tudo : " + qtd);
+
+                            qtd = sobra;
+                            break;
                         }
                     }
                 }
@@ -129,7 +133,8 @@ public class InventoryManager : MonoBehaviour
                     CreateItem(item,item.maxGroup,itemPrefab);
                     qtd -= item.maxGroup;
                 }
-
+                
+                print("criado varios itens no inventario : " + qtd);
                 return CreateItem(item,qtd,itemPrefab);
             }
         }
@@ -148,6 +153,7 @@ public class InventoryManager : MonoBehaviour
 
     void AddItem(SlotController slot,int qtd){
         slot.itemInv.AddItem(qtd);
+        print(qtd);
     }
 
     bool CreateItem(Item item,int qtd,ItemPrefab itemPrefab){
@@ -155,10 +161,10 @@ public class InventoryManager : MonoBehaviour
             if(!slot.full){
                 Gerar(item,qtd,slot);
                 itemPrefab.qtd -= qtd;
+                print(qtd);
                 return true;
             }
         }
-
         print("Inventario Cheio");
         return false;
         
@@ -167,6 +173,7 @@ public class InventoryManager : MonoBehaviour
     bool CreateItem(Item item,int qtd){
         foreach(var slot in slots){
             if(!slot.full){
+                print(qtd);
                 Gerar(item,qtd,slot);
                 return true;
             }
@@ -197,10 +204,17 @@ public class InventoryManager : MonoBehaviour
         prefab.GetComponent<ItemPrefab>().item = item;
         prefab.GetComponent<SpriteRenderer>().sprite = item.icone;
 
-        if(!FindFirstObjectByType<Character_Controller>().isFacing)
-            prefab.GetComponent<Rigidbody2D>().AddForce(Vector3.right * Random.Range(velocity.x,velocity.y),ForceMode2D.Impulse);
-        else
-            prefab.GetComponent<Rigidbody2D>().AddForce(Vector3.left * Random.Range(velocity.x,velocity.y),ForceMode2D.Impulse);
+        if(target.GetComponent<Character_Controller>()){
+            if(!FindFirstObjectByType<Character_Controller>().isFacing)
+                prefab.GetComponent<Rigidbody2D>().AddForce(Vector3.right * Random.Range(velocity.x,velocity.y),ForceMode2D.Impulse);
+            else
+                prefab.GetComponent<Rigidbody2D>().AddForce(Vector3.left * Random.Range(velocity.x,velocity.y),ForceMode2D.Impulse);
+        }else{
+            if(!FindFirstObjectByType<Character_Controller>().isFacing)
+                prefab.GetComponent<Rigidbody2D>().AddForce(Vector3.left * Random.Range(velocity.x,velocity.y),ForceMode2D.Impulse);
+            else
+                prefab.GetComponent<Rigidbody2D>().AddForce(Vector3.right * Random.Range(velocity.x,velocity.y),ForceMode2D.Impulse);
+        }
     }
 
     #region Collectable Interface

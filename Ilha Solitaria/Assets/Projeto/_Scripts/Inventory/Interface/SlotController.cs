@@ -33,12 +33,18 @@ public class SlotController : MonoBehaviour, IDropHandler
             if(itemInv.item.group){
                 if(itemInv.item == draggableItem.GetComponent<ItemInventory>().item){
                     if(itemInv.qtd < itemInv.item.maxGroup){
-                        while(itemInv.qtd < itemInv.item.maxGroup){
-                            draggableItem.GetComponent<ItemInventory>().DecrementItem(1);
-                            itemInv.AddItem(1);
-                            
-                            draggableItem.GetComponent<ItemInventory>().InQuantity();
+                        int qtd_ = 0;
+                        for (int i = 0; i < draggableItem.GetComponent<ItemInventory>().qtd; i++){
+                            if(itemInv.qtd < itemInv.item.maxGroup){
+                                qtd_++;
+                                itemInv.AddItem(1);
+                            }else{
+                                break;
+                            }
                         }
+
+                        draggableItem.GetComponent<ItemInventory>().DecrementItem(qtd_);
+                        draggableItem.GetComponent<ItemInventory>().InQuantity();
                     }
                 }
             }

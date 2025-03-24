@@ -99,6 +99,7 @@ public class CraftingManager : MonoBehaviour
 
                             //Retirar do inventario manualmente
                             item.DecrementItem(qtd);
+                            return true;
                         }
                     }
 
@@ -157,21 +158,26 @@ public class CraftingManager : MonoBehaviour
     
 
     bool CheckManufacturation(){
-        if(itensCraft.Count > 0){
+        bool ret = false;
+
+        if(itensCraft.Count >= receitas.Count){
             foreach(var i in itensCraft){
-                foreach(var f in fabricavel_select.materials){
-                    if(i.item.mat == f.mats){
-                        if(i.qtd < f.quantity){
-                            return false;
+                foreach(var f in receitas){
+                    if(i.item.mat == f.mat){
+                        if(i.qtd < f.qtd){
+                            ret = false;
+                            break;
+                        }else{
+                            ret = true;
                         }
                     }
                 }
             }
         }else{
-            return false;
+            ret = false;
         }
 
-        return true;
+        return ret;
     }
 
     void RemoveItens(){

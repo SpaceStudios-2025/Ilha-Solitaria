@@ -2390,7 +2390,7 @@ MonoBehaviour:
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
-  m_RendererIndex: -1
+  m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
@@ -2452,7 +2452,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5.75
+  orthographic size: 6.59
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -6897,7 +6897,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 34
-    OrthographicSize: 5.75
+    OrthographicSize: 6.59
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -9120,12 +9120,12 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 1727338729}
   - {fileID: 619394802}
   - {fileID: 2062652107}
   - {fileID: 1645523484}
   - {fileID: 635384246}
   - {fileID: 864562790}
-  - {fileID: 1727338729}
   - {fileID: 1796922338}
   - {fileID: 877068801}
   - {fileID: 1571763802}
