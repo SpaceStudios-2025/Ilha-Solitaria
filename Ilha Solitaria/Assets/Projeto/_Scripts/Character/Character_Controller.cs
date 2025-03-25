@@ -31,6 +31,9 @@ public class Character_Controller : MonoBehaviour
     [Header("Particles")]
     [SerializeField] private GameObject particle_action;
 
+    [Header("Back Tool")]
+    [SerializeField] private GameObject backTool;
+
     void Start()
     {
         speed = speedWalk;
@@ -96,16 +99,15 @@ public class Character_Controller : MonoBehaviour
                 }
                 anim.SetFloat("x",x);
                 anim.SetFloat("y",y);
+
+                if(y >= 1) backTool.GetComponent<SpriteRenderer>().sortingLayerName = "front";
+                else backTool.GetComponent<SpriteRenderer>().sortingLayerName = "back";
             }else{
                 anim.SetInteger("transition",0);
             }
 
-            if(mov.x < 0 && !isFacing){
-                Flip();
-            }else if(mov.x > 0 && isFacing){
-                Flip();
-            }
-            
+            if(mov.x < 0 && !isFacing)Flip();
+            else if(mov.x > 0 && isFacing) Flip();
 
             transform.position += mov * speed * Time.deltaTime;
         }
@@ -114,7 +116,12 @@ public class Character_Controller : MonoBehaviour
     void Flip(){
         isFacing = !isFacing;
         var scale = transform.localScale;
+        var toolScale = backTool.transform.localScale;
+
+        toolScale.x *= -1;
         scale.x *= -1;
+
+        backTool.transform.localScale = toolScale;
         transform.localScale = scale;
     }
     #endregion
@@ -157,5 +164,15 @@ public class Character_Controller : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(origin.transform.position,range_Collect);
     }
+
+
+    #region Details
+
+    public void BackTool(Sprite tool){
+        backTool.GetComponent<SpriteRenderer>().sprite = tool;
+    }
+
+
+    #endregion
 
 }

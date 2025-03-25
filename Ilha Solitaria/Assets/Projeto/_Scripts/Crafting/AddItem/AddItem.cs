@@ -15,7 +15,9 @@ public class AddItem : MonoBehaviour
     private int qtd;
     private ItemInventory item;
 
-    public void Style(ItemInventory item,int max){
+    [HideInInspector] public ICrafting crafting;
+
+    public void Style(ItemInventory item,int max,ICrafting craft){
         icone.sprite = item.item.icone;
         nome_txt.text = item.item.nome;
         max_txt.text = max.ToString();
@@ -28,6 +30,8 @@ public class AddItem : MonoBehaviour
         slider.maxValue = max;
 
         qtd = 1;
+
+        crafting = craft;
     }
 
     public void OnSliderValueChanged(float value)
@@ -38,7 +42,7 @@ public class AddItem : MonoBehaviour
     }
 
     public void Enviar(){
-        if(FindFirstObjectByType<CraftingManager>().GenerateItem(ref item,qtd)){
+        if(crafting.GenerateItem(ref item)){
             transform.GetChild(0).gameObject.SetActive(false);
         }
     }

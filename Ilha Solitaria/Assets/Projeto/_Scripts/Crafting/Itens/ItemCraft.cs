@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,11 +11,15 @@ public class ItemCraft : MonoBehaviour{
 
     [HideInInspector] public Item item;
     public int qtd;
+
+    private ICrafting crafting;
  
-    public void Style(Item item,int qtd){
+    public void Style(Item item,int qtd,ICrafting craft){
         this.item = item;
         icone.sprite = item.icone;
         qtd_txt.text = this.qtd.ToString("00");
+
+        crafting = craft;
 
         Add(qtd);
     }
@@ -28,7 +33,7 @@ public class ItemCraft : MonoBehaviour{
         this.qtd += qtd;
         qtd_txt.text = this.qtd.ToString("00");
 
-        foreach(var i in FindFirstObjectByType<CraftingManager>().receitas){
+        foreach(var i in crafting.Receitas()){
             if(i.mat == item.mat){
                 if(this.qtd >= i.qtd){
                     i.Complete();
@@ -43,7 +48,7 @@ public class ItemCraft : MonoBehaviour{
         qtd_txt.text = this.qtd.ToString("00");
 
 
-        foreach(var i in FindFirstObjectByType<CraftingManager>().receitas){
+        foreach(var i in crafting.Receitas()){
             if(i.mat == item.mat){
                 if(this.qtd < i.qtd){
                     i.NotComplete();

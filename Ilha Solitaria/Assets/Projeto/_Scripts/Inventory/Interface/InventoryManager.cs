@@ -33,9 +33,21 @@ public class InventoryManager : MonoBehaviour
     [Header("Dropar Item")]
     [SerializeField] private GameObject itemPrefab;
 
-
     [HideInInspector]
     public List<ItemInventory> itensInventory = new List<ItemInventory>();
+    //
+    //
+    //
+    //
+    //
+    [Header("Crafting Inventory")]
+    [SerializeField] private GameObject crafting_inventory;
+    [SerializeField] private Image icone_btn;
+    [SerializeField] private Sprite[] icons_;
+
+    private bool enable_inventory_crafting;
+    private bool button_crafting;
+
 
     void Awake()
     {
@@ -245,6 +257,12 @@ public class InventoryManager : MonoBehaviour
     #region Open Inventory 
 
     public void Close(){
+        crafting_inventory.GetComponent<CraftingInventory>().Close();
+
+        enable_inventory_crafting = false;
+        crafting_inventory.SetActive(enable_inventory_crafting);
+        icone_btn.sprite = enable_inventory_crafting ? icons_[0] : icons_[1];
+
         inventory_.SetActive(false);
     }
 
@@ -277,8 +295,8 @@ public class InventoryManager : MonoBehaviour
 
     #region Agrupar Itens
 
-    public List<ItemPrefab> itensPrefabs = new List<ItemPrefab>();
-    public List<ItemPrefab> itensAgrupados = new List<ItemPrefab>();
+    [HideInInspector] public List<ItemPrefab> itensPrefabs = new List<ItemPrefab>();
+    [HideInInspector] public List<ItemPrefab> itensAgrupados = new List<ItemPrefab>();
 
     public void Agrupar(ItemPrefab it) {
         // Verifica se o item já está na lista
@@ -325,6 +343,76 @@ public class InventoryManager : MonoBehaviour
 
         itensAgrupados.Clear();
         itensPrefabs.Clear();
+    }
+
+    #endregion
+
+
+
+    #region Crafting Inventory
+
+    public void BtnCrafting(){
+        if(!button_crafting){
+            enable_inventory_crafting = !enable_inventory_crafting;
+            StartCoroutine(ButtonCrafting());
+            
+            if(!enable_inventory_crafting)
+                FindFirstObjectByType<CraftingInventory>().Close();
+
+            icone_btn.sprite = enable_inventory_crafting ? icons_[0] : icons_[1];
+        }
+    }
+
+    IEnumerator ButtonCrafting(){
+        button_crafting = true;
+
+        if(!enable_inventory_crafting) crafting_inventory.GetComponent<Animator>().SetTrigger("close");
+        else crafting_inventory.SetActive(enable_inventory_crafting);
+
+        yield return new WaitForSeconds(.8f);
+
+        if(!enable_inventory_crafting) crafting_inventory.SetActive(enable_inventory_crafting);
+
+        button_crafting = false;
+    }
+
+
+    #endregion
+
+
+    #region Interface Inventory
+
+    public void Organizar(){
+        //Destroi todos os itens do inventario
+        for (int i = 0; i < itensInventory.Count; i++) {
+            if(itensInventory[i].slotParent && !itensInventory[i].slotParent.hand)
+                Destroy(itensInventory[i].gameObject);
+        }
+
+        //Deixa todos os slots vazios
+        for (int i = 0; i < slots.Count; i++) slots[i].full = false;
+
+        //Cria lista temporaria
+        List<ItemInventory> listTemp = new List<ItemInventory>();
+        ItemInventory itemInHand = new ItemInventory();
+
+        foreach(var i in itensInventory){
+            if(i.slotParent && i.slotParent.hand){
+                itemInHand = i;
+            }else
+                listTemp.Add(i);
+        }
+
+        //Limpa a lista do inventario
+        itensInventory.Clear();
+
+        //Gera novamente
+        foreach(ItemInventory item in listTemp){
+            GenerateItem(item.item,item.qtd);
+        }
+
+        itensInventory.Add(itemInHand);
+        listTemp.Clear();
     }
 
     #endregion

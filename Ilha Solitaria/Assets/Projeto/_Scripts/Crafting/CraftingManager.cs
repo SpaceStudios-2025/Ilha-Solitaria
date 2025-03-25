@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-public class CraftingManager : MonoBehaviour
+public class CraftingManager : MonoBehaviour, ICrafting
 {
     [Header("Fabricaveis")]
     [SerializeField] private GameObject fabriPrefab;
@@ -48,7 +48,7 @@ public class CraftingManager : MonoBehaviour
     public void GenerateFabricaveis(){
         foreach(var fabrica in fabricaveis){
             var fab = Instantiate(fabriPrefab,fabriParent);
-            fab.GetComponent<FabricavelSlot>().Style(fabrica.item.icone,fabrica);
+            fab.GetComponent<FabricavelSlot>().Style(fabrica.item.icone,fabrica,this);
         }
     }
 
@@ -59,6 +59,8 @@ public class CraftingManager : MonoBehaviour
     }
 
     void SelectFabri(ItemFabricavel item){
+        Close(false);
+
         icone.sprite = item.item.icone;
         nome_txt.text = item.item.nome;
 
@@ -85,30 +87,30 @@ public class CraftingManager : MonoBehaviour
 
     public void AddItens(ItemInventory item){
         addItem_interface.SetActive(true);
-        FindFirstObjectByType<AddItem>().Style(item,item.qtd);
+        FindFirstObjectByType<AddItem>().Style(item,item.qtd,this);
     }
 
-    public bool GenerateItem(ref ItemInventory item,int qtd){
+    public bool GenerateItem(ref ItemInventory item){
         if(fabricavel_select != null){
             foreach(var f in fabricavel_select.materials){
                 if(f.mats == item.item.mat){
                     foreach(var c in itensCraft){
                         if(c.item == item.item){
                             //Pode adicionar tudo
-                            c.Add(qtd);
+                            c.Add(item.qtd);
 
                             //Retirar do inventario manualmente
-                            item.DecrementItem(qtd);
+                            item.DecrementItem(item.qtd);
                             return true;
                         }
                     }
 
                     var it = Instantiate(itenPrefab,itenParent);
 
-                    it.GetComponent<ItemCraft>().Style(item.item,qtd);
+                    it.GetComponent<ItemCraft>().Style(item.item,item.qtd,this);
 
                     //Remove do inventario manualmente
-                    item.DecrementItem(qtd);
+                    item.DecrementItem(item.qtd);
 
                     itensCraft.Add(it.GetComponent<ItemCraft>());
                     return true;
@@ -120,14 +122,16 @@ public class CraftingManager : MonoBehaviour
         return false;
     }
 
-    public void Close(){
+    public void Close(bool desable){
         foreach(var c in itensCraft){
             InventoryManager.instance.GenerateItem(c.item,c.qtd);
         }
 
         Clear();
         fabricavel_select = null;
-        transform.GetChild(0).gameObject.SetActive(false);
+
+        if(desable)
+            transform.GetChild(0).gameObject.SetActive(false);
     }
 
     void Clear(){
@@ -141,6 +145,10 @@ public class CraftingManager : MonoBehaviour
 
         itensCraft.Clear();
         receitas.Clear();
+    }
+
+    public List<ReceitaItem> Receitas(){
+        return receitas;
     }
     #region Fabricar 
     

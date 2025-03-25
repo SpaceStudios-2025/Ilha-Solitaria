@@ -6,12 +6,15 @@ public class FabricavelSlot : MonoBehaviour{
     [SerializeField] private Image icone;
     private ItemFabricavel item;
 
-    public void Style(Sprite icon, ItemFabricavel fabri){
+    [HideInInspector] public ICrafting crafting;
+
+    public void Style(Sprite icon, ItemFabricavel fabri, ICrafting craft){
         icone.sprite = icon;
         item = fabri;
+        crafting = craft;
     }
 
     public void SelectManufacturable(){
-        FindFirstObjectByType<CraftingManager>().SelecionarFabricavel(item);
+        crafting.SelecionarFabricavel(item);
     }
 }

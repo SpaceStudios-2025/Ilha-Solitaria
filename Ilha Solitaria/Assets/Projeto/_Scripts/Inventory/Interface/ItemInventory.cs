@@ -102,6 +102,7 @@ public class ItemInventory : MonoBehaviour
         else life.fillRect.GetComponent<Image>().color = default_; // se não fica verde
 
         if(toolLife <= 0){
+            FindFirstObjectByType<Character_Controller>().BackTool(null);
             //Quebrou
             InQuantityEx();
         }

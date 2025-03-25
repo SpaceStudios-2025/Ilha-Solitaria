@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0445b671e9df290488279ee9036f75b1, type: 3}
-  m_Name: Pick
+  m_Name: CraftingTable
   m_EditorClassIdentifier: 
-  nome: Picareta
-  describe: Ferramenta de coleta de pedra
-  icone: {fileID: -2281399594713186456, guid: d1ea3630414ab0848b01419b5d607f4e, type: 3}
+  nome: Crafting Table
+  describe: 
+  icone: {fileID: 7131048652916952255, guid: f7d530e69752d1945b44774d7e09cac2, type: 3}
   group: 0
   maxGroup: 0
   craft: 0
   mat: 0
-  tools: 1
-  tool: 1
-  life: 4
+  tools: 0
+  tool: 0
+  life: 0
