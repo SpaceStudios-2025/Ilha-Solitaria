@@ -21,3 +21,4 @@ MonoBehaviour:
   mat: 0
   tools: 1
   tool: 1
+  life: 4

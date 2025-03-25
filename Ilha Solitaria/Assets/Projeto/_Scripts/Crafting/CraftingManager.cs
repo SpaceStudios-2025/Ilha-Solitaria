@@ -148,7 +148,7 @@ public class CraftingManager : MonoBehaviour
         if(CheckManufacturation()){
             if(InventoryManager.instance.GenerateItem(fabricavel_select.item,fabricavel_select.qtd??1)){}
             else{
-                InventoryManager.instance.DropItem(FindFirstObjectByType<Character_Controller>().origin,fabricavel_select.item,fabricavel_select.qtd??1,new Vector2(5f,10f));
+                InventoryManager.instance.DropItem(FindFirstObjectByType<Character_Controller>().origin,fabricavel_select.item,fabricavel_select.qtd??1,new Vector2(5f,10f),fabricavel_select.item.life);
             }
 
             RemoveItens();

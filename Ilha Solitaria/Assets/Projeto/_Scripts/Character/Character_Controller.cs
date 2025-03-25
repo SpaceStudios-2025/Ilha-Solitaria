@@ -1,7 +1,5 @@
 using System.Collections;
-using UnityEditor.Tilemaps;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Character_Controller : MonoBehaviour
 {
@@ -25,7 +23,7 @@ public class Character_Controller : MonoBehaviour
     public Transform pes;
 
     [Header("Hand")]
-    [SerializeField] private SlotController slotHand;
+    public SlotController slotHand;
     public Tools tool;
 
     bool mov = true;

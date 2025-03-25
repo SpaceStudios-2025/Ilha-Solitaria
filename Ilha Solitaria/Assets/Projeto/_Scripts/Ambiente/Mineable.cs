@@ -1,5 +1,7 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Mineable : MonoBehaviour
 {   
@@ -25,11 +27,22 @@ public class Mineable : MonoBehaviour
     public int lifemax;
 
     private int life = 3;
+    private int lifeTotal;
 
     bool hit_;
     bool fall;
 
-    void Start() => life = Random.Range(lifemin,lifemax);
+    [Header("Life")]
+    [SerializeField] private GameObject canvas_obj;
+
+    [SerializeField] private Slider life_slider;
+    [SerializeField] private TextMeshProUGUI max_txt;
+    [SerializeField] private TextMeshProUGUI life_txt;
+
+    void Start(){
+        lifeTotal = Random.Range(lifemin,lifemax);
+        life = lifeTotal;
+    }
 
     void LateUpdate()
     {
@@ -37,16 +50,7 @@ public class Mineable : MonoBehaviour
             hit = Physics2D.OverlapBoxAll(target.position,size,0f,actionPlayer);
             if(hit.Length > 0 && !hit_){
                 if(FindFirstObjectByType<Character_Controller>().tool == tool){
-                    life--;
-
-                    int drop = Random.Range(min,max);
-                    InventoryManager.instance.DropItem(transform,item[Random.Range(0,item.Length)],drop,velocity);
-
-                    StartCoroutine(Delay());
-
-                    if(life <= 0){
-                        DestroyObj();
-                    }
+                    Hit();
                 }
             }
         }
@@ -58,11 +62,41 @@ public class Mineable : MonoBehaviour
         hit_ = false;
     }
 
+    public void Hit(){
+        life--;
+
+        FindFirstObjectByType<Character_Controller>().slotHand.itemInv.HitTool();
+
+        int drop = Random.Range(min,max);
+        InventoryManager.instance.DropItem(transform,item[Random.Range(0,item.Length)],drop,velocity,0);
+
+        StartCoroutine(Delay());
+
+        if(life <= 0){
+            DestroyObj();
+        }else{
+            StartCoroutine(LifeCoroutine());
+        }
+    }
+
+    IEnumerator LifeCoroutine(){
+        canvas_obj.SetActive(true);
+        life_slider.maxValue = lifeTotal;
+        life_slider.value = life;
+
+        life_txt.text = life.ToString("00");
+        max_txt.text = "/" + lifeTotal.ToString("00");
+
+        yield return new WaitForSeconds(2f);
+        canvas_obj.SetActive(false);
+    }
+
     void DestroyObj(){
         GetComponent<Animator>().SetTrigger("fall");
         fall = true;
+        canvas_obj.SetActive(false);
 
-        if(destroyItem != null) InventoryManager.instance.DropItem(transform,destroyItem,Random.Range(min,max),velocity);
+        if(destroyItem != null) InventoryManager.instance.DropItem(transform,destroyItem,Random.Range(min,max),velocity,0);
         
         Destroy(gameObject,4f);
     }

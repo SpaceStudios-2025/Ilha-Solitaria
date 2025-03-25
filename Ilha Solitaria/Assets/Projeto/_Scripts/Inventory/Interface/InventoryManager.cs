@@ -52,13 +52,6 @@ public class InventoryManager : MonoBehaviour
     }
 
     public bool GenerateItem(Item item,int qtd){
-        // foreach(var i in itensPrefabs){
-        //     if(i == null){
-        //         itensPrefabs.Clear();
-        //         break;
-        //     }
-        // }
-
         itensPrefabs.Clear();
 
         if(item.group){
@@ -98,7 +91,6 @@ public class InventoryManager : MonoBehaviour
         return CreateItem(item,qtd);
         
     }
-
     public bool GenerateItem(Item item,int qtd,ItemPrefab itemPrefab){
         itensPrefabs.Clear();
         
@@ -159,7 +151,7 @@ public class InventoryManager : MonoBehaviour
     bool CreateItem(Item item,int qtd,ItemPrefab itemPrefab){
         foreach(var slot in slots){
             if(!slot.full){
-                Gerar(item,qtd,slot);
+                Gerar(item,qtd,slot,itemPrefab.life_);
                 itemPrefab.qtd -= qtd;
                 print(qtd);
                 return true;
@@ -169,7 +161,6 @@ public class InventoryManager : MonoBehaviour
         return false;
         
     }
-
     bool CreateItem(Item item,int qtd){
         foreach(var slot in slots){
             if(!slot.full){
@@ -193,10 +184,20 @@ public class InventoryManager : MonoBehaviour
 
         itensInventory.Add(it.GetComponent<ItemInventory>());
     }
+    void Gerar(Item item,int qtd,SlotController slot,int life_){
+        var it = Instantiate(item_prefab,slot.gameObject.transform);
+        it.GetComponent<ItemInventory>().Style(item,qtd,life_);
+        it.GetComponent<ItemInventory>().slotParent = slot;
 
-    public void DropItem(Transform target, Item item, int qtd,Vector2 velocity){
+        slot.full = true;
+        slot.itemInv = it.GetComponent<ItemInventory>();
+
+        itensInventory.Add(it.GetComponent<ItemInventory>());
+    }
+
+    public void DropItem(Transform target, Item item, int qtd,Vector2 velocity,int life_){
         //Criar o item no chão
-        Vector3 pos = new(target.position.x,target.position.y + Random.Range(-.3f,.3f));
+        Vector3 pos = new(target.position.x,target.position.y + Random.Range(-.15f,.15f));
 
         var prefab = Instantiate(itemPrefab,pos,Quaternion.identity);
         prefab.GetComponent<ItemPrefab>().qtd = qtd;
@@ -204,7 +205,9 @@ public class InventoryManager : MonoBehaviour
         prefab.GetComponent<ItemPrefab>().item = item;
         prefab.GetComponent<SpriteRenderer>().sprite = item.icone;
 
-        if(target.GetComponent<Character_Controller>()){
+        prefab.GetComponent<ItemPrefab>().LifeSet(life_);
+
+        if(target.GetComponentInParent<Character_Controller>()){
             if(!FindFirstObjectByType<Character_Controller>().isFacing)
                 prefab.GetComponent<Rigidbody2D>().AddForce(Vector3.right * Random.Range(velocity.x,velocity.y),ForceMode2D.Impulse);
             else

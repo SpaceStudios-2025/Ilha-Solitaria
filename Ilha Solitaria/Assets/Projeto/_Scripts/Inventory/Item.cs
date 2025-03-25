@@ -20,4 +20,6 @@ public class Item : ScriptableObject
     [Header("Ferramentas")]
     public bool tools;
     public Tools tool;
+
+    public int life;
 }
