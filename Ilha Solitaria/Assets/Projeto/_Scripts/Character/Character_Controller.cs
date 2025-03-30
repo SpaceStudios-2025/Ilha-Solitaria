@@ -34,6 +34,7 @@ public class Character_Controller : MonoBehaviour
     [Header("Back Tool")]
     [SerializeField] private GameObject backTool;
 
+
     void Start()
     {
         speed = speedWalk;
@@ -52,7 +53,7 @@ public class Character_Controller : MonoBehaviour
     #region Actions
 
     public void Action(){
-        if(Input.GetKeyDown(KeyCode.Space) && slotHand.full){
+        if(Input.GetKeyDown(KeyCode.Space) && slotHand.full && slotHand.itemInv.item.type == TypeItem.tool){
             anim.SetTrigger("Tool");
             foreach(var i in ToolsManager.instance.tools){
                 if(i.tool == slotHand.itemInv.item.tool){
@@ -61,6 +62,10 @@ public class Character_Controller : MonoBehaviour
                     break;
                 }
             }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space) && slotHand.full && slotHand.itemInv.item.type == TypeItem.plant){
+            
         }
     }
 
@@ -101,7 +106,7 @@ public class Character_Controller : MonoBehaviour
                 anim.SetFloat("y",y);
 
                 if(y >= 1) backTool.GetComponent<SpriteRenderer>().sortingLayerName = "front";
-                else backTool.GetComponent<SpriteRenderer>().sortingLayerName = "back";
+                else if(y <= -1) backTool.GetComponent<SpriteRenderer>().sortingLayerName = "back";
             }else{
                 anim.SetInteger("transition",0);
             }

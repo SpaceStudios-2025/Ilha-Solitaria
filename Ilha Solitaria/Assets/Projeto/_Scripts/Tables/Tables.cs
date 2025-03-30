@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Tables : MonoBehaviour, ICollectable
 {
-    [SerializeField] private GameObject interface_;
+    [SerializeField] private int interface_;
+
 
     public void Interact(){
-        interface_.SetActive(true);
+        Buscador.buscar.interfaces_tables[interface_].SetActive(true);
     }
 }

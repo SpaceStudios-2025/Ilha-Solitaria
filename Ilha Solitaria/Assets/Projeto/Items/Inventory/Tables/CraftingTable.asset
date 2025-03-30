@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nome: Crafting Table
   describe: 
-  icone: {fileID: 7131048652916952255, guid: f7d530e69752d1945b44774d7e09cac2, type: 3}
+  icone: {fileID: 3151163639480509120, guid: 8541ef8b3571f3643adfaf4464ffe338, type: 3}
+  type: 2
   group: 0
   maxGroup: 0
-  craft: 0
   mat: 0
-  tools: 0
   tool: 0
   life: 0
+  planta: {fileID: 11400000, guid: 034acf196587ffe40954370d96cf7219, type: 2}

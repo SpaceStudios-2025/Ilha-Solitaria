@@ -12,25 +12,22 @@ public class SlotController : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
         GameObject dropped = eventData.pointerDrag;
+        if(dropped.GetComponent<Dragabble>()){
         Dragabble draggableItem = dropped.GetComponent<Dragabble>();
         if(draggableItem.GetComponent<ItemInventory>()){
             ItemInventory itemInventory = draggableItem.GetComponent<ItemInventory>();
 
             if(!full){
-                if(hand && !itemInventory.item.tools){
-                    return;
-                }
+                if(hand && itemInventory.item.type != TypeItem.tool && itemInventory.item.type != TypeItem.plant) return;
 
-                if(hand && itemInventory.item.tools){
-                    FindFirstObjectByType<Character_Controller>().ToolInHand((int)itemInventory.item.tool);
-                    FindFirstObjectByType<Character_Controller>().BackTool(itemInventory.item.icone);
+                if(hand && itemInventory.item.type == TypeItem.tool){
+                    Buscador.buscar.player.ToolInHand((int)itemInventory.item.tool);
+                    Buscador.buscar.player.BackTool(itemInventory.item.icone);
+                }else if(hand && itemInventory.item.type == TypeItem.plant){
+                    FindFirstObjectByType<PlantsManager>().Style(itemInventory);
                 }
                 
-                draggableItem.parentAfterDrag.GetComponent<SlotController>().full = false;
-
-                if(draggableItem.parentAfterDrag.GetComponent<SlotController>().hand){
-                    FindFirstObjectByType<Character_Controller>().BackTool(null);
-                }
+                draggableItem.parentAfterDrag.GetComponent<SlotController>().TirarDoSlot();
 
                 draggableItem.parentAfterDrag = transform;
                 itemInventory.slotParent = this;
@@ -56,7 +53,19 @@ public class SlotController : MonoBehaviour, IDropHandler
                     }
                 }
             }
-        
         }
+        }
+    }
+
+    public void TirarDoSlot(){
+        full = false;
+
+        if(hand && itemInv.item.type == TypeItem.tool){
+            Buscador.buscar.player.BackTool(null);
+        }else if(hand && itemInv.item.type == TypeItem.plant){
+            FindFirstObjectByType<PlantsManager>().Desable();
+        }
+
+        itemInv = null;
     }
 }

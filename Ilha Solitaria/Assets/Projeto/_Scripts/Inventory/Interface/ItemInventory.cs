@@ -39,7 +39,7 @@ public class ItemInventory : MonoBehaviour
         
         qtd_txt.text = this.qtd.ToString("00");
 
-        if(item.tools){
+        if(item.type == TypeItem.tool){
             toolLife = item.life;
             total = item.life;
 
@@ -59,7 +59,7 @@ public class ItemInventory : MonoBehaviour
         
         qtd_txt.text = this.qtd.ToString("00");
 
-        if(item.tools){
+        if(item.type == TypeItem.tool){
             toolLife = life_;
             total = item.life;
 
@@ -79,16 +79,14 @@ public class ItemInventory : MonoBehaviour
     }
 
     public void InQuantityEx(){
-        slotParent.full = false;
-        slotParent.itemInv = null;
-
+        slotParent.TirarDoSlot();
         InventoryManager.instance.itensInventory.Remove(this);
 
         Destroy(gameObject);
     }
 
     public void HitTool(){
-        if(item.tools){
+        if(item.type == TypeItem.tool){
             toolLife--;
             life.value = toolLife;
 
@@ -102,7 +100,7 @@ public class ItemInventory : MonoBehaviour
         else life.fillRect.GetComponent<Image>().color = default_; // se não fica verde
 
         if(toolLife <= 0){
-            FindFirstObjectByType<Character_Controller>().BackTool(null);
+            Buscador.buscar.player.BackTool(null);
             //Quebrou
             InQuantityEx();
         }

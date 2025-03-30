@@ -65,4 +65,11 @@ public class ItemCraft : MonoBehaviour{
         }
     }
 
+    public void ReturnInventory(){
+        if(InventoryManager.instance.GenerateItem(item,qtd)){
+            DecrementItem(qtd);
+            Remove();
+        }
+    }
+
 }

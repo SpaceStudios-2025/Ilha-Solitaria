@@ -18,7 +18,7 @@ public class ItemPrefab : MonoBehaviour, ICollectable
 
     void LateUpdate()
     {
-        if(mov && !item.tools){
+        if(mov && item.type != TypeItem.tool){
             transform.position = Vector3.MoveTowards(transform.position,pos,3f * Time.deltaTime);
             if(Vector2.Distance(transform.position,pos) < 0.1f){
                 if(!manter){
@@ -52,7 +52,7 @@ public class ItemPrefab : MonoBehaviour, ICollectable
     void OnTriggerEnter2D(Collider2D collision)
     {
          // Verifica se a ação já foi executada
-        if(!item.tools){
+        if(item.type != TypeItem.tool){
             ItemPrefab otherItemPrefab = collision.GetComponent<ItemPrefab>();
 
             if (otherItemPrefab != null)

@@ -15,9 +15,10 @@ MonoBehaviour:
   nome: Semente
   describe: Serve para Plantar
   icone: {fileID: 7142228510438032970, guid: 425dc52671a53ed4ba52eff5aade9455, type: 3}
+  type: 3
   group: 1
   maxGroup: 16
-  craft: 0
   mat: 0
-  tools: 0
   tool: 0
+  life: 0
+  planta: {fileID: 0}

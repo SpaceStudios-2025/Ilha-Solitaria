@@ -49,7 +49,7 @@ public class Mineable : MonoBehaviour
         if(!fall){
             hit = Physics2D.OverlapBoxAll(target.position,size,0f,actionPlayer);
             if(hit.Length > 0 && !hit_){
-                if(FindFirstObjectByType<Character_Controller>().tool == tool){
+                if(Buscador.buscar.player.tool == tool){
                     Hit();
                 }
             }
@@ -65,7 +65,7 @@ public class Mineable : MonoBehaviour
     public void Hit(){
         life--;
 
-        FindFirstObjectByType<Character_Controller>().slotHand.itemInv.HitTool();
+        Buscador.buscar.player.slotHand.itemInv.HitTool();
 
         int drop = Random.Range(min,max);
         InventoryManager.instance.DropItem(transform,item[Random.Range(0,item.Length)],drop,velocity,0);

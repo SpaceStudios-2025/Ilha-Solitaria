@@ -39,7 +39,7 @@ public class Dragabble : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         transform.localScale = new Vector3(1,1);
 
-        if(GetComponent<ItemInventory>().item.tools)
+        if(GetComponent<ItemInventory>().item.type == TypeItem.tool)
             GetComponent<ItemInventory>().life.gameObject.SetActive(true);
     }
 }

@@ -15,10 +15,10 @@ MonoBehaviour:
   nome: Machado
   describe: Ferramenta de coleta de madeira
   icone: {fileID: -1496239452364602890, guid: 075f8fb01e2efb547943e330b4fcb6f6, type: 3}
+  type: 1
   group: 0
   maxGroup: 0
-  craft: 0
   mat: 0
-  tools: 1
   tool: 0
   life: 4
+  planta: {fileID: 0}

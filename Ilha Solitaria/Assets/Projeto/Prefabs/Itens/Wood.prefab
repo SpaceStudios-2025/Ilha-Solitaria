@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4933372354949019497}
   - component: {fileID: 4223418056670728851}
   - component: {fileID: 3799811608808760950}
+  - component: {fileID: 1692337023251122380}
   m_Layer: 6
   m_Name: Wood
   m_TagString: Untagged
@@ -49,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 12a0559444dca884e8459fdefd7d283d, type: 2}
   qtd: 1
+  life_: 0
 --- !u!212 &4933372354949019497
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -185,3 +187,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1692337023251122380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7244880057931081926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6695afd81c0c0d044bb2ec497235c781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VelocidadeVertical: 1
+  DistanciaVertical: 0.8
+  VelocidadeHorizontal: 0
+  VelocidadeDeRotacao: 0.2

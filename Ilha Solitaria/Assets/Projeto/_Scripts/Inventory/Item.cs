@@ -8,18 +8,22 @@ public class Item : ScriptableObject
 
     public Sprite icone;
 
+    [Header("Type")]
+    public TypeItem type;
+
     [Header("Agrupa?")]
     public bool group;
     [Range(0,32)]
     public int maxGroup;
 
     [Header("Crafting")]
-    public bool craft;
     public Materials mat;
 
     [Header("Ferramentas")]
-    public bool tools;
     public Tools tool;
 
     public int life;
+
+    [Header("Planta")]
+    public Plantas planta;
 }

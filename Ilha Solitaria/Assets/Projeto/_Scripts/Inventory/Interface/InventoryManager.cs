@@ -218,18 +218,26 @@ public class InventoryManager : MonoBehaviour
         prefab.GetComponent<SpriteRenderer>().sprite = item.icone;
 
         prefab.GetComponent<ItemPrefab>().LifeSet(life_);
+        prefab.GetComponent<ObjFloat>().enabled = false;
 
         if(target.GetComponentInParent<Character_Controller>()){
-            if(!FindFirstObjectByType<Character_Controller>().isFacing)
+            if(!Buscador.buscar.player.isFacing)
                 prefab.GetComponent<Rigidbody2D>().AddForce(Vector3.right * Random.Range(velocity.x,velocity.y),ForceMode2D.Impulse);
             else
                 prefab.GetComponent<Rigidbody2D>().AddForce(Vector3.left * Random.Range(velocity.x,velocity.y),ForceMode2D.Impulse);
         }else{
-            if(!FindFirstObjectByType<Character_Controller>().isFacing)
+            if(!Buscador.buscar.player.isFacing)
                 prefab.GetComponent<Rigidbody2D>().AddForce(Vector3.left * Random.Range(velocity.x,velocity.y),ForceMode2D.Impulse);
             else
                 prefab.GetComponent<Rigidbody2D>().AddForce(Vector3.right * Random.Range(velocity.x,velocity.y),ForceMode2D.Impulse);
         }
+
+        StartCoroutine(FloatObj(prefab));
+    }
+
+    IEnumerator FloatObj(GameObject prefab){
+        yield return new WaitForSeconds(.8f);
+        prefab.GetComponent<ObjFloat>().enabled = true;
     }
 
     #region Collectable Interface
@@ -284,7 +292,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     void InvokeBtn(ItemInventory it){
-        if(it.item.craft){
+        if(it.item.type == TypeItem.craft){
             FindFirstObjectByType<CraftingManager>().AddItens(it);
         }
     }
@@ -416,4 +424,11 @@ public class InventoryManager : MonoBehaviour
     }
 
     #endregion
+}
+
+public enum TypeItem{
+    craft,
+    tool,
+    plant,
+    nulo
 }
