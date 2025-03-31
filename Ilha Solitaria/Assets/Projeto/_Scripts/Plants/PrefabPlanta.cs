@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class PrefabPlanta : MonoBehaviour
 {
-    public bool coll;
+    bool coll;
     bool distance;
 
     [Header("Colors")]
     [SerializeField] private Color colorDefault;
     [SerializeField] private Color colorColl;
+
+    [SerializeField] private GameObject prefabPlanta;
 
     private ItemInventory item;
 
@@ -49,8 +51,8 @@ public class PrefabPlanta : MonoBehaviour
 
     public void Instante(){
         if(!coll){
-            Instantiate(item.item.planta.prefab,transform.position,Quaternion.identity);
-
+            var fabricavel = Instantiate(prefabPlanta,transform.position,Quaternion.identity);
+            fabricavel.GetComponent<FabricavelPrefab>().Style(item.item);
             //Tira um item do inventario
             item.DecrementItem(1);
         }

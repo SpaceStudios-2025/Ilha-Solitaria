@@ -20,5 +20,5 @@ MonoBehaviour:
   maxGroup: 0
   mat: 0
   tool: 1
-  life: 4
+  life: 20
   planta: {fileID: 0}

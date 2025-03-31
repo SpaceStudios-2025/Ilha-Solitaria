@@ -60,9 +60,9 @@ public class SlotController : MonoBehaviour, IDropHandler
     public void TirarDoSlot(){
         full = false;
 
-        if(hand && itemInv.item.type == TypeItem.tool){
+        if(hand && itemInv != null && itemInv.item.type == TypeItem.tool){
             Buscador.buscar.player.BackTool(null);
-        }else if(hand && itemInv.item.type == TypeItem.plant){
+        }else if(hand && itemInv != null && itemInv.item.type == TypeItem.plant){
             FindFirstObjectByType<PlantsManager>().Desable();
         }
 

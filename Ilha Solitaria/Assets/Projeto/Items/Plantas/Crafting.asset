@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   img: {fileID: -8228200253690479153, guid: f7d530e69752d1945b44774d7e09cac2, type: 3}
   prefab: {fileID: 8117617368363199667, guid: b48a06ee42412674692afbf369ce1b95, type: 3}
+  materials:
+  - mats: 0
+    quantity: 4
+  - mats: 1
+    quantity: 3

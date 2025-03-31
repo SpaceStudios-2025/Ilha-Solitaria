@@ -237,7 +237,9 @@ public class InventoryManager : MonoBehaviour
 
     IEnumerator FloatObj(GameObject prefab){
         yield return new WaitForSeconds(.8f);
-        prefab.GetComponent<ObjFloat>().enabled = true;
+
+        if(prefab != null && prefab.GetComponent<ObjFloat>())
+            prefab.GetComponent<ObjFloat>().enabled = true;
     }
 
     #region Collectable Interface
@@ -422,6 +424,32 @@ public class InventoryManager : MonoBehaviour
         itensInventory.Add(itemInHand);
         listTemp.Clear();
     }
+
+    #endregion
+
+
+    #region Busca 
+
+    public ItemInventory Busca(Item item){
+        foreach(var i in itensInventory){
+            if(i.item == item){
+                return i;
+            }
+        }
+
+        return null;
+    }
+
+    public ItemInventory Busca(Materials mat){
+        foreach(var i in itensInventory){
+            if(i.item.type == TypeItem.craft && i.item.mat == mat){
+                return i;
+            }
+        }
+
+        return null;
+    }
+
 
     #endregion
 }
