@@ -13,14 +13,16 @@ public class ItemCraft : MonoBehaviour{
     public int qtd;
 
     private ICrafting crafting;
+    private CraftingManager craft;
  
-    public void Style(Item item,int qtd,ICrafting craft){
+    public void Style(Item item,int qtd,ICrafting craft,CraftingManager crafting){
         this.item = item;
         icone.sprite = item.icone;
         qtd_txt.text = this.qtd.ToString("00");
 
-        crafting = craft;
-
+        this.crafting = craft;
+        this.craft = crafting;
+        
         Add(qtd);
     }
 
@@ -60,7 +62,7 @@ public class ItemCraft : MonoBehaviour{
 
     public void Remove(){
         if(qtd <= 0){
-            FindFirstObjectByType<CraftingManager>().itensCraft.Remove(this);
+            craft.itensCraft.Remove(this);
             Destroy(gameObject);
         }
     }

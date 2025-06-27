@@ -42,7 +42,7 @@ public class AddItem : MonoBehaviour
     }
 
     public void Enviar(){
-        if(crafting.GenerateItem(ref item)){
+        if(crafting.GenerateItem(ref item,qtd)){
             transform.GetChild(0).gameObject.SetActive(false);
         }
     }

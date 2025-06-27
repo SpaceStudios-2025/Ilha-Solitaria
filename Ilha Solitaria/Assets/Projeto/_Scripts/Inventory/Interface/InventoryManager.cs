@@ -284,18 +284,18 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void OpenBtn(){
+    public void OpenBtn(CraftingManager craft){
         inventory_.SetActive(true);
 
         foreach(var it in itensInventory){
             it.GetComponent<Button>().onClick.RemoveAllListeners();
-            it.GetComponent<Button>().onClick.AddListener(() => InvokeBtn(it));
+            it.GetComponent<Button>().onClick.AddListener(() => InvokeBtn(it,craft));
         }
     }
 
-    void InvokeBtn(ItemInventory it){
+    void InvokeBtn(ItemInventory it,CraftingManager craft){
         if(it.item.type == TypeItem.craft){
-            FindFirstObjectByType<CraftingManager>().AddItens(it);
+            craft.AddItens(it,it.qtd);
         }
     }
 

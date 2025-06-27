@@ -75,42 +75,42 @@ public class CraftingManager : MonoBehaviour, ICrafting
 
         foreach(var r in item.materials){
             var receita = Instantiate(receitaPrefab,receitaParent);
-            receita.GetComponent<ReceitaItem>().Style(r);
+            receita.GetComponent<ReceitaItem>().Style(r,this);
             receitas.Add(receita.GetComponent<ReceitaItem>());
         }
     }
 
     public void OpenInventory(){
         if(fabricavel_select != null)
-            InventoryManager.instance.OpenBtn();
+            InventoryManager.instance.OpenBtn(this);
     }
 
-    public void AddItens(ItemInventory item){
+    public void AddItens(ItemInventory item,int qtd){
         addItem_interface.SetActive(true);
-        FindFirstObjectByType<AddItem>().Style(item,item.qtd,this);
+        FindFirstObjectByType<AddItem>().Style(item,qtd,this);
     }
 
-    public bool GenerateItem(ref ItemInventory item){
+    public bool GenerateItem(ref ItemInventory item,int qtd){
         if(fabricavel_select != null){
             foreach(var f in fabricavel_select.materials){
                 if(f.mats == item.item.mat){
                     foreach(var c in itensCraft){
                         if(c.item == item.item){
                             //Pode adicionar tudo
-                            c.Add(item.qtd);
+                            c.Add(qtd);
 
                             //Retirar do inventario manualmente
-                            item.DecrementItem(item.qtd);
+                            item.DecrementItem(qtd);
                             return true;
                         }
                     }
 
                     var it = Instantiate(itenPrefab,itenParent);
 
-                    it.GetComponent<ItemCraft>().Style(item.item,item.qtd,this);
+                    it.GetComponent<ItemCraft>().Style(item.item,qtd,this,this);
 
                     //Remove do inventario manualmente
-                    item.DecrementItem(item.qtd);
+                    item.DecrementItem(qtd);
 
                     itensCraft.Add(it.GetComponent<ItemCraft>());
                     return true;

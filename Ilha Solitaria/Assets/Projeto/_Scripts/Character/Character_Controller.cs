@@ -105,8 +105,8 @@ public class Character_Controller : MonoBehaviour
                 anim.SetFloat("x",x);
                 anim.SetFloat("y",y);
 
-                if(y >= 1) backTool.GetComponent<SpriteRenderer>().sortingLayerName = "front";
-                else if(y <= -1) backTool.GetComponent<SpriteRenderer>().sortingLayerName = "back";
+                if(y >= 1 && x == 0) backTool.GetComponent<SpriteRenderer>().sortingLayerName = "front";
+                else backTool.GetComponent<SpriteRenderer>().sortingLayerName = "back";
             }else{
                 anim.SetInteger("transition",0);
             }

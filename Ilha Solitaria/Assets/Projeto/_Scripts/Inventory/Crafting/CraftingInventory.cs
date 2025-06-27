@@ -60,17 +60,17 @@ public class CraftingInventory : MonoBehaviour, ICrafting
 
     public void OpenInventory(){
         if(fabricavel_select != null)
-            InventoryManager.instance.OpenBtn();
+            InventoryManager.instance.OpenBtn(null);
     }
 
-    public bool GenerateItem(ref ItemInventory item){
+    public bool GenerateItem(ref ItemInventory item,int qtd){
         if(fabricavel_select != null){
             foreach(var f in fabricavel_select.materials){
                 if(f.mats == item.item.mat){
                     if(itens == null){
                         var it = Instantiate(craft_Prefab,craft_Parent);
 
-                        it.GetComponent<ItemCraft>().Style(item.item,item.qtd,this);
+                        it.GetComponent<ItemCraft>().Style(item.item,item.qtd,this,null);
 
                         //Remove do inventario manualmente
                         item.DecrementItem(item.qtd);
@@ -104,7 +104,7 @@ public class CraftingInventory : MonoBehaviour, ICrafting
         var receita = Instantiate(receitaItemPrefab,receitaItemParent);
         receitaItem = receita.GetComponent<ReceitaItem>();
 
-        receitaItem.Style(item.materials[0]);
+        receitaItem.Style(item.materials[0],null);
     }
 
     public List<ReceitaItem> Receitas(){

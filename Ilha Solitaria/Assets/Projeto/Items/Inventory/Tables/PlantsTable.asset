@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0445b671e9df290488279ee9036f75b1, type: 3}
+  m_Name: PlantsTable
+  m_EditorClassIdentifier: 
+  nome: Plantas Table
+  describe: 
+  icone: {fileID: 3151163639480509120, guid: 8541ef8b3571f3643adfaf4464ffe338, type: 3}
+  type: 2
+  group: 0
+  maxGroup: 0
+  mat: 0
+  tool: 0
+  life: 0
+  planta: {fileID: 11400000, guid: 7f5a3a85bc8a8b641a74544068766d86, type: 2}

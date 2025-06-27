@@ -9,7 +9,7 @@ public class InputCraftingInventory : MonoBehaviour, IDropHandler{
 
         ItemInventory item = draggableItem.GetComponent<ItemInventory>();
         if(item.item.type == TypeItem.craft){
-            FindFirstObjectByType<CraftingInventory>().GenerateItem(ref item);
+            FindFirstObjectByType<CraftingInventory>().GenerateItem(ref item,item.qtd);
         }
     }
 }

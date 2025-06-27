@@ -15,8 +15,11 @@ public class ReceitaItem : MonoBehaviour
     [HideInInspector] public Materials mat;
     [HideInInspector] public int qtd;
 
-    public void Style(Fabricar fabri){
-        icone.sprite = FindFirstObjectByType<CraftingManager>().materials[(int)fabri.mats];
+    private CraftingManager craft;
+
+    public void Style(Fabricar fabri, CraftingManager crafting){
+        craft = crafting;
+        icone.sprite = craft.materials[(int)fabri.mats];
         qtd = fabri.quantity;
         qtd_txt.text = fabri.quantity.ToString("00");
         mat = fabri.mats;
